@@ -1,0 +1,4 @@
+*.o
+work
+tb_registers
+tb_alu

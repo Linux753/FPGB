@@ -1,0 +1,110 @@
+NOP_OP : do nothing
+	FLAGS : ----
+	OPCODE : 
+		0x00
+
+ADD_r8 : add r8 wiith {r8|n8}
+	FLAGS : Z0HC
+	OPCODE :
+		0x80
+		0x81
+		0x82
+		0x83
+		0x84
+		0x85
+		0x86
+		0x87
+
+ADD_r16 : add r16 with an other r16
+	FLAGS : -0HC
+	OPCODE : 
+
+INC_r8 :
+	FLAGS : Z0H-
+	OPCODE :
+
+INC_r16 :
+	FLAGS : ----
+	OPCODE : 
+
+SUB_r8 : 
+	FLAGS : Z1HC
+	OPCODE :
+
+DEC_r8 : 
+	FLAGS : Z1H-
+	OPCODE :
+
+DEC_r16 :
+	FLAGS : ----
+	OPCODE :
+
+ADC_OP : 
+	FLAGS : Z0HC
+	OPCODE : 
+
+SBC_OP :
+	FLAGS : Z1HC
+	OPCODE :
+
+AND_OP :
+	FLAGS : Z010
+	OPCODE : 
+
+XOR_OP : 
+	FLAGS : Z000
+	OPCODE : 
+
+OR_OP : 
+	FLAGS : Z000
+	OPCODE : 
+
+CP_OP :
+	FLAGS : Z1HC
+	OPCODE :
+
+RLC_OP : 
+	FLAGS : Z00C
+	OPCODE : 
+
+RL_OP : 
+	FLAGS : Z00C
+	OPCODE : 
+
+RRC_OP : 
+	FLAGS : Z00C
+	OPCODE : 
+
+RR_OP :
+	FLAGS : Z00C
+	OPCODE :
+
+SLA_OP : 
+	FLAGS : Z00C
+	OPCODE : 
+
+SRA_OP :
+	FLAGS : Z00C
+	OPCODE :
+
+SRL_OP :
+	FLAGS : Z00C
+	OPCODE : 
+
+SWAP_OP :
+	FLAGS : Z000
+	OPCODE :
+
+BIT_OP :
+	FLAGS : Z01-
+	OPCODE :
+
+SET_OP :
+	FLAGS : ----
+	OPCODE : 
+
+RES_OP :
+	FLAGS : ----
+	OPCODE :
+
+
