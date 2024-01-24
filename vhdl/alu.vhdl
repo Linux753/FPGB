@@ -79,15 +79,35 @@ begin
 
     sub_flag_calc : process(all) --Sub flag combinational circuit
     begin
-	flags_out(3) <= '0';
+	flags_out(2) <= '0';
 	if control = ALU_sub or control = ALU_sbc then
-	    flags_out(3) <= '1';
+	    flags_out(2) <= '1';
 	end if;
     end process sub_flag_calc;
 
     --Carry flag combinational circuit
-    flags_out(0) <= res_temp(4); 
-     
+    flags_out(0) <= res_temp(8); 
+    
+    half_flag_calc : process(all)
+    begin
+	flags_out(1) <= '0';
+	if control = ALU_add then 
+	    flags_out(1) <= std_logic_vector(unsigned('0'&in1(3 downto 0)) 
+			    + unsigned('0'&in2(3 downto 0)))(4);
+	elsif control = ALU_sub then
+	    flags_out(1) <= std_logic_vector(unsigned('0'&in1(3 downto 0)) 
+			    - unsigned('0'&in2(3 downto 0)))(4);
+	elsif control = ALU_sbc then
+	    flags_out(1) <= std_logic_vector(unsigned('0'&in1(3 downto 0)) 
+			    - unsigned('0'&in2(3 downto 0))  
+			    - unsigned(0 => flags_in(0), others => '0'));
+	elsif control = ALU_adc then
+	    flags_out(1) <= std_logic_vector(unsigned('0'&in1(3 downto 0)) 
+			    + unsigned('0'&in2(3 downto 0)) 
+			    + unsigned(0 => flags_in(0), others => '0'));
+	end if;
+    end process half_flag_calc;
+
 end synth;
 
 
