@@ -13,7 +13,7 @@ Work is in progress
 
 The designed microarchitecture of the processor is the following : 
 
-<img src="doc/datapath.jpg" alt="CPU's designed microarchitecture" width="600"\>
+<img src="doc/datapath.jpg" alt="CPU's designed microarchitecture" width="600">
 
 *This is a temporary image, a cleaner one will be made when the design will be completly implemented*
 
