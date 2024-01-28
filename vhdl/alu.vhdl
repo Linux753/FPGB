@@ -35,7 +35,7 @@ entity alu is
 end alu;
 
 architecture synth of alu is 
-    signal res_temp : std_logic_vector(16 downto 0); --Result of calculation 1 bit wider to avoid losing overflow
+    signal res_temp : std_logic_vector(8 downto 0); --Result of calculation 1 bit wider to avoid losing overflow
 begin
     calc : process(all) --Combinationnal circuit to decode control signal and execute operation
     begin
@@ -46,10 +46,10 @@ begin
 		res_temp <= std_logic_vector(unsigned('0'&in1) - unsigned('0'&in2));
 	    when ALU_adc =>
 		res_temp <= std_logic_vector(unsigned('0'&in1) + unsigned('0'&in2) + 
-			    unsigned(0 => flags_in(0), others => '0'));
+			    flags_in(0));
 	    when ALU_sbc => 
 		res_temp <= std_logic_vector(unsigned('0'&in1) - unsigned('0'&in2) - 
-			    unsigned(0 => flags_in(0), others => '0'));
+			    flags_in(0));
 	    when ALU_and =>
 		res_temp <= '0'&(in1 AND in2);
 	    when ALU_xor =>
@@ -71,7 +71,7 @@ begin
 	or control = ALU_adc or control = ALU_sbc
 	or control = ALU_xor or control = ALU_and
 	or control = ALU_and then
-	    if res = "0000000000000000" then
+	    if res = X"00" then
 		flags_out(3) <= '1';
 	    end if;
 	end if;
@@ -89,23 +89,25 @@ begin
     flags_out(0) <= res_temp(8); 
     
     half_flag_calc : process(all)
+	variable temp_half : unsigned(4 downto 0);
     begin
 	flags_out(1) <= '0';
 	if control = ALU_add then 
-	    flags_out(1) <= std_logic_vector(unsigned('0'&in1(3 downto 0)) 
-			    + unsigned('0'&in2(3 downto 0)))(4);
+	    temp_half := (unsigned('0'&in1(3 downto 0)) 
+			    + unsigned('0'&in2(3 downto 0)));
 	elsif control = ALU_sub then
-	    flags_out(1) <= std_logic_vector(unsigned('0'&in1(3 downto 0)) 
-			    - unsigned('0'&in2(3 downto 0)))(4);
+	    temp_half := (unsigned('0'&in1(3 downto 0)) 
+			    - unsigned('0'&in2(3 downto 0)));
 	elsif control = ALU_sbc then
-	    flags_out(1) <= std_logic_vector(unsigned('0'&in1(3 downto 0)) 
+	    temp_half := (unsigned('0'&in1(3 downto 0)) 
 			    - unsigned('0'&in2(3 downto 0))  
-			    - unsigned(0 => flags_in(0), others => '0'));
+			    - flags_in(0));
 	elsif control = ALU_adc then
-	    flags_out(1) <= std_logic_vector(unsigned('0'&in1(3 downto 0)) 
+	    temp_half := (unsigned('0'&in1(3 downto 0)) 
 			    + unsigned('0'&in2(3 downto 0)) 
-			    + unsigned(0 => flags_in(0), others => '0'));
+			    + flags_in(0));
 	end if;
+	flags_out(1) <= temp_half(4);
     end process half_flag_calc;
 
 end synth;

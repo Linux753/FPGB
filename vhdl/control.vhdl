@@ -15,7 +15,7 @@ entity control is
 	write : out std_logic;
 	is_r16 : out std_logic;
 
-	clk : in std_logic));
+	clk : in std_logic);
 
 end control;
 
@@ -28,6 +28,7 @@ begin
 
 	arithm : process(all)
 	begin
-		
+	
+	end process arithm;
 
 end architecture synth;
